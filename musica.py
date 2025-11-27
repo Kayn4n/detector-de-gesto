@@ -21,13 +21,13 @@ def checar_gesto_L(hand_landmarks):
         def estendido(tip, pip):
             return lm[tip].y < lm[pip].y - 0.02
 
-        # Indicador estendido
+        
         indicador = estendido(8, 6)
 
-        # Polegar estendido (comparação no eixo X)
-        polegar = lm[4].x < lm[3].x - 0.04  # funciona bem para mão direita
+        
+        polegar = lm[4].x < lm[3].x - 0.04 
 
-        # Outros dedos fechados
+       
         medio = estendido(12, 10)
         anelar = estendido(16, 14)
         minimo = estendido(20, 18)
@@ -39,17 +39,11 @@ def checar_gesto_L(hand_landmarks):
     except:
         return False
 
-# ----------------------------------------------
-# FUNÇÃO PARA ABRIR SPOTIFY PELO APP
-# ----------------------------------------------
 def abrir_spotify(uri):
-    # Abre via protocolo URI
+    
     webbrowser.open(uri)
 
 
-# ----------------------------------------------
-# FUNÇÃO PARA ABRIR A CÂMERA
-# ----------------------------------------------
 def abrir_camera(indices=(0, 1, 2, 3, 4)):
     for idx in indices:
         cap = cv2.VideoCapture(idx, cv2.CAP_DSHOW)
@@ -66,9 +60,6 @@ def abrir_camera(indices=(0, 1, 2, 3, 4)):
             cap.release()
     return None
 
-# ----------------------------------------------
-# LOOP PRINCIPAL
-# ----------------------------------------------
 cap = abrir_camera()
 if cap is None:
     print("Não foi possível abrir a câmera.")
@@ -77,7 +68,7 @@ if cap is None:
 NOME_JANELA = 'Detector de Gestos'
 cv2.namedWindow(NOME_JANELA, cv2.WINDOW_NORMAL)
 
-musica_tocou = False  # evita abrir a música repetidamente
+musica_tocou = False  
 
 try:
     while cap.isOpened():
@@ -102,11 +93,11 @@ try:
                 if checar_gesto_L(hand):
                     gesto_L = True
 
-        # Exibir texto de debug
+        
         cv2.putText(frame, f"Fez o L: {'SIM' if gesto_L else 'NAO'}",
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
-        # Se o gesto L for detectado...
+        
         if gesto_L:
             cv2.putText(frame, "GESTO L DETECTADO!", (50, 80),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -117,7 +108,7 @@ try:
                 musica_tocou = True
 
         else:
-            musica_tocou = False  # reset quando parar de fazer o gesto
+            musica_tocou = False  
 
         cv2.imshow(NOME_JANELA, frame)
 
